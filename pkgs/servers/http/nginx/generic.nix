@@ -1,4 +1,4 @@
-outer@{ lib, stdenv, fetchurl, openssl, zlib, pcre 
+outer@{ lib, fetchurl, openssl, zlib, pcre, stdenv
 # , nixosTests
 , installShellFiles, substituteAll, removeReferencesTo 
 , withDebug ? false
@@ -33,7 +33,7 @@ outer@{ lib, stdenv, fetchurl, openssl, zlib, pcre
 }:
 
 let
-
+  # stdenv = gcc8Stdenv;
   moduleNames = map (mod: mod.name or (throw "The nginx module with source ${toString mod.src} does not have a `name` attribute. This prevents duplicate module detection and is no longer supported."))
     modules;
 
@@ -71,14 +71,22 @@ stdenv.mkDerivation {
   configureFlags = [
     "--sbin-path=bin/nginx"
     "--with-pcre-jit"
-    "--with-http_slice_module"
     "--with-http_realip_module"
     "--with-http_stub_status_module"
     "--with-http_ssl_module"
     "--with-http_v2_module"
-    "--with-http_addition_module"
-    "--with-http_sub_module"
     "--with-http_gzip_static_module"
+    "--with-http_sub_module"
+    # "--sbin-path=bin/nginx"
+    # "--with-pcre-jit"
+    # "--with-http_slice_module"
+    # "--with-http_realip_module"
+    # "--with-http_stub_status_module"
+    # "--with-http_ssl_module"
+    # "--with-http_v2_module"
+    # "--with-http_addition_module"
+    # "--with-http_sub_module"
+    # "--with-http_gzip_static_module"
   ] ++ lib.optionals withDebug [
     "--with-debug"
   ] ++ lib.optionals withKTLS [
@@ -98,8 +106,8 @@ stdenv.mkDerivation {
     ++ configureFlags
     ++ map (mod: "--add-module=${mod.src}") modules;
 
-  env.NIX_CFLAGS_COMPILE = toString ([
-    "-Wno-error=implicit-fallthrough"
+  NIX_CFLAGS_COMPILE = toString ([
+    # "-Wno-error=implicit-fallthrough"
   ] ++ lib.optionals (stdenv.cc.isGNU && lib.versionAtLeast stdenv.cc.version "11") [
     # fix build vts module on gcc11
     "-Wno-error=stringop-overread"
