@@ -1,43 +1,18 @@
-{ pkgs, callPackage, system, ... } @ args:
+{ system, ... } @ args:
 let
-  # glibc-pkgs = (import
-  #   (builtins.fetchGit {
-  #     name = "glibc_2_19";
-  #     url = "https://github.com/NixOS/nixpkgs/";
-  #     ref = "refs/heads/release-14.12";
-  #     rev = "1b55b07eeb43ba41470eed1ce21991df96110e70";
-  #   })
-  #   { inherit system; });
-  # glibc_2_19 = glibc-pkgs.glibc;
-
-  # gcc5 = (import
-  #   (builtins.fetchGit {
-  #     name = "gcc_5_5_0";
-  #     url = "https://github.com/NixOS/nixpkgs/";
-  #     ref = "refs/heads/release-18.03";
-  #     rev = "3e1be2206b4c1eb3299fb633b8ce9f5ac1c32898";
-  #   })
-  #   { inherit system; }).gcc5;
-  # gcc-unwrapped_5 = gcc5.cc;
-  # gcc = pkgs.gcc6;
-
-  # getCustomGccStdenv = customGcc: customGlibc: origStdenv: { pkgs, ... }:
-  #   with pkgs; let
-  #     compilerWrapped = wrapCCWith {
-  #       cc = customGcc;
-  #       bintools = wrapBintoolsWith {
-  #         bintools = binutils-unwrapped;
-  #         libc = customGlibc;
-  #       };
-  #     };
-  #   in
-  #   overrideCC origStdenv compilerWrapped;
-  # glibc_2_19_gcc_5 = getCustomGccStdenv gcc.cc pkgs.glibc pkgs.stdenv pkgs;
+  glibc-pkgs = (import
+    (builtins.fetchGit {
+      name = "glibc_2_38";
+      url = "https://github.com/NixOS/nixpkgs/";
+      ref = "refs/heads/nixos-23.11";
+      rev = "7144d6241f02d171d25fba3edeaf15e0f2592105";
+    })
+    { inherit system; });
 in
-callPackage ./generic.nix
+glibc-pkgs.callPackage ./generic.nix
   (args // {
     withSlice = true;
-    stdenv = pkgs.gcc6Stdenv;
+    stdenv = glibc-pkgs.gcc6Stdenv;
   })
 {
   pname = "nginxMailServer";
