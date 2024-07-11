@@ -38,7 +38,6 @@ callPackage ./generic.nix
   (args // {
     withSlice = true;
     stdenv = pkgs.gcc6Stdenv;
-    openssl = pkgs.openssl_1_1;
   })
 {
   pname = "nginxMailServer";
