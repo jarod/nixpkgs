@@ -27,17 +27,21 @@ pkgs.callPackage ./generic.nix
   hash = "sha256-lYh2dXeCGQoWU+FNwm38e6Jj3jEOBMET4R6X0b70WkI=";
   # nativeBuildInputs = [ pkgs.glibc gcc ];
   buildInputs = [ pkgs.libxcrypt ];
-  # configureFlags = [
-  #   "--sbin-path=bin/nginx"
-  #   "--with-pcre-jit"
-  # "--with-http_slice_module"
-  #   "--with-http_realip_module"
-  #   "--with-http_stub_status_module"
-  #   "--with-http_ssl_module"
-  #   "--with-http_v2_module"
-  #   "--with-http_gzip_static_module"
-  #   "--with-http_sub_module"
-  # "--with-stream"
-  # "--with-stream_ssl_module"
-  # ];
+  configureFlags = [
+    "--conf-path=/ewomail/nginx/nginx.conf"
+    "--pid-path=/ewomail/nginx/logs/nginx.pid"
+    "--http-log-path=/ewomail/nginx/logs/access.log"
+    "--error-log-path=/ewomail/nginx/logs/error.log"
+    #   "--sbin-path=bin/nginx"
+    #   "--with-pcre-jit"
+    # "--with-http_slice_module"
+    #   "--with-http_realip_module"
+    #   "--with-http_stub_status_module"
+    #   "--with-http_ssl_module"
+    #   "--with-http_v2_module"
+    #   "--with-http_gzip_static_module"
+    #   "--with-http_sub_module"
+    # "--with-stream"
+    # "--with-stream_ssl_module"
+  ];
 }
