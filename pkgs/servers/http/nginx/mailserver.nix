@@ -8,10 +8,10 @@ let
   #   });
   glibc-pkgs = (import
     (builtins.fetchGit {
-      name = "glibc_2_38";
+      name = "glibc_2_37";
       url = "https://github.com/NixOS/nixpkgs/";
       ref = "refs/heads/nixos-23.11";
-      rev = "7144d6241f02d171d25fba3edeaf15e0f2592105";
+      rev = "b23e08124df73322d5e8000c013148e04cf22caa";
       shallow = true;
     })
     { inherit system; });
