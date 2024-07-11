@@ -1,13 +1,19 @@
 { system, ... } @ args:
 let
   glibc-pkgs = (import
-    (builtins.fetchGit {
-      name = "glibc_2_38";
-      url = "https://github.com/NixOS/nixpkgs/";
-      ref = "refs/heads/nixos-23.11";
-      rev = "7144d6241f02d171d25fba3edeaf15e0f2592105";
-    })
-    { inherit system; });
+    (fetchTarball "https://github.com/NixOS/nixpkgs/archive/7144d6241f02d171d25fba3edeaf15e0f2592105.tar.gz")
+    {
+      inherit system;
+      #  config =  { allowBroken=true; allowUnfree=true; };
+    });
+  # glibc-pkgs = (import
+  #   (builtins.fetchGit {
+  #     name = "glibc_2_38";
+  #     url = "https://github.com/NixOS/nixpkgs/";
+  #     ref = "refs/heads/nixos-23.11";
+  #     rev = "7144d6241f02d171d25fba3edeaf15e0f2592105";
+  #   })
+  #   { inherit system; });
 in
 glibc-pkgs.callPackage ./generic.nix
   (args // {
